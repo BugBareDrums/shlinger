@@ -35,40 +35,47 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Shlinger</h1>
-        <img src={hankyImageUrl} className="App-logo" alt="logo" />
+    <>
+      <div className="wrapper">
+        <div className="inner">
+          <img src={hankyImageUrl} className="App-logo" alt="logo" />
+        </div>
+      </div>
 
-        <p>
-          Stop your friends getting any presents this year by slinging some
-          shade.
-        </p>
-        <h2>Participants</h2>
-        {participants &&
-          Object.keys(participants).map((walletAddress) => {
-            const name = participants[walletAddress];
-            return (
-              <div key={walletAddress}>
-                <p>{name}</p>
-              </div>
-            );
-          })}
-        {connected && (
-          <div>
-            <div>{account && `Connected account: ${account}`}</div>
+      <div className="App">
+        <header className="App-header">
+          <h1>Shlinger</h1>
 
-            <label htmlFor="display_name">Claim name</label>
-            <input
-              name="display_name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-            ></input>
-            <input type="submit" value="Submit" onClick={onSubmit}></input>
-          </div>
-        )}
-      </header>
-    </div>
+          <p>
+            Stop your friends getting any presents this year by slinging some
+            shade.
+          </p>
+          <h2>Participants</h2>
+          {participants &&
+            Object.keys(participants).map((walletAddress) => {
+              const name = participants[walletAddress];
+              return (
+                <div key={walletAddress}>
+                  <p>{name}</p>
+                </div>
+              );
+            })}
+          {connected && (
+            <div>
+              <div>{account && `Connected account: ${account}`}</div>
+
+              <label htmlFor="display_name">Claim name</label>
+              <input
+                name="display_name"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+              ></input>
+              <input type="submit" value="Submit" onClick={onSubmit}></input>
+            </div>
+          )}
+        </header>
+      </div>
+    </>
   );
 }
 
