@@ -1,13 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { MetaMaskProvider } from "@metamask/sdk-react";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const easClient = new ApolloClient({
+  uri: "https://sepolia.easscan.org/graphql",
+  cache: new InMemoryCache(),
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <MetaMaskProvider
+      debug={false}
+      sdkOptions={{
+        checkInstallationImmediately: false,
+        dappMetadata: {
+          name: "Shlinger",
+          url: window.location.host,
+        },
+      }}
+    >
+      <ApolloProvider client={easClient}>
+        <App />
+      </ApolloProvider>
+    </MetaMaskProvider>
   </React.StrictMode>
 );
 
