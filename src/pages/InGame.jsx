@@ -21,6 +21,9 @@ export const InGame = ({ accusations, participants, children }) => {
         }}
       >
         <Window>
+          <Window.Img stage="accuse" />
+          <Window.Title>Somebody has accused somebody</Window.Title>
+          <Window.Subtitle>"He disrespected my memes"</Window.Subtitle>
           <ul className="flex flex-wrap gap-2">{children}</ul>
         </Window>
       </main>
