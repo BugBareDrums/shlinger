@@ -4,5 +4,5 @@ type WindowProps = {
 } & React.ButtonHTMLAttributes<HTMLDivElement>;
 
 export const Window = ({ children, className }: WindowProps) => {
-  return <div className={className}>{children}</div>;
+  return <div className={`bg-white p-4 ${className}`}>{children}</div>;
 };
