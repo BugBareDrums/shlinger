@@ -3,13 +3,13 @@ import { EventFeed } from "../EventFeed";
 
 export const InGame = ({ accusations, participants }) => {
   return (
-    <div className="h-full grid grid-cols-4">
+    <div className="grid h-full grid-cols-4">
       <aside className="col-span-1">
         <EventFeed />
       </aside>
 
       <main
-        className="col-span-3 flex justify-center items-center"
+        className="flex items-center justify-center col-span-3"
         style={{
           backgroundImage: "/ingame-bg.png",
         }}

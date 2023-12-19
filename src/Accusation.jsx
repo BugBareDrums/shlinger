@@ -17,10 +17,10 @@ export const Accusation = ({ accused, accuser, claim, needed, current }) => {
       </div>
 
       <div className="flex gap-5">
-        <button className="p-2 border-2 border-black w-full">
+        <button className="w-full p-2 border-2 border-black">
           corroborate
         </button>
-        <button className="p-2 border-2 border-black bg-black text-white w-full">
+        <button className="w-full p-2 text-white bg-black border-2 border-black">
           deny
         </button>
       </div>
