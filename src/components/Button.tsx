@@ -4,6 +4,7 @@ const variants = {
   primary: "bg-white text-black border-black",
   secondary: "bg-black text-white border-black",
   lively: "bg-yellow-400 text-black border-yellow-400",
+  danger: "bg-red-400 text-black border-red-400",
 };
 
 type ButtonProps = {
