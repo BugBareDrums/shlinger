@@ -5,7 +5,7 @@ const GET_ATTESTATIONS = gql`
     attestations(
       where: {
         schemaId: {
-          equals: "0xd197b54111dc7589f24dd29c9affafa84ee91fe31c78aecde2c1a281fce6cbaf"
+          equals: "0x94d2ee2cf932ae7585a156e130301464e743ca7fad607f4f095d962c250ce322"
         }
       }
     ) {
@@ -21,26 +21,27 @@ const GET_ATTESTATIONS = gql`
   }
 `;
 
-export const useGetParticipants = () => {
+export const useGetAccusations = () => {
   const { loading, error, data } = useQuery(GET_ATTESTATIONS, {
     pollInterval: 500,
   });
 
   if (data == null || data.attestations == null) {
-    return { participants: [], loading, error };
+    return { accusations: [], loading, error };
   }
 
-  const sortedParticipants = [...data.attestations].sort(
+  const sortedAccusations = [...data.attestations].sort(
     (a, b) => a.time > b.time
   );
 
-  const participants = sortedParticipants?.reduce((acc, curr) => {
-    const payload = JSON.parse(curr.decodedDataJson);
+  const accusations = sortedAccusations.map((att) => {
+    const payload = JSON.parse(att.decodedDataJson);
     return {
-      ...acc,
-      [curr.attester]: payload[0].value.value,
+      accuser: att.attester,
+      accused: att.recipient,
+      content: payload[1].value.value,
     };
   }, {});
 
-  return { participants, loading, error };
+  return { accusations, loading, error };
 };
