@@ -1,5 +1,5 @@
 import { useSDK } from "@metamask/sdk-react";
-import { BrowserProvider } from "ethers";
+import { BrowserProvider, JsonRpcSigner } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { Accusation } from "./Accusation";
 import "./App.css";
@@ -7,12 +7,13 @@ import { accuse } from "./accuse";
 import { claimName } from "./claimName";
 import { useGetAccusations } from "./getAccusations";
 import { useGetParticipants } from "./getParticipants";
-import { corroborate } from "./makeStatement";
+
+import { corroborate, deny } from "./makeStatement";
 import { InGame } from "./pages/InGame";
 
 function App() {
   const [account, setAccount] = useState();
-  const [signer, setSigner] = useState();
+  const [signer, setSigner] = useState<JsonRpcSigner>();
   const { sdk, connected, provider } = useSDK();
   const { participants = [] } = useGetParticipants();
   const { accusations = [] } = useGetAccusations();
@@ -33,7 +34,7 @@ function App() {
 
   useEffect(() => {
     if (ethersProvider) {
-      ethersProvider.getSigner().then(setSigner);
+      ethersProvider.getSigner().then((s) => setSigner(s));
     }
   }, [ethersProvider]);
 
@@ -44,19 +45,12 @@ function App() {
 
     const formData = new FormData(e.target);
 
-    await claimName(
-      await ethersProvider.getSigner(),
-      formData.get("display_name")
-    );
+    await claimName(signer, formData.get("display_name"));
   };
   const onSubmitAccusation = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    await accuse(
-      await ethersProvider.getSigner(),
-      formData.get("against"),
-      formData.get("accusation")
-    );
+    await accuse(signer, formData.get("against"), formData.get("accusation"));
   };
 
   return (
@@ -65,21 +59,20 @@ function App() {
         {accusations.map((accusation) => {
           return (
             <li>
-                        <Accusation
-              accused={participants[accusation.accused]}
-              accuser={participants[accusation.accuser]}
-              claim={accusation.content}
-              needed={0}
-              current={0}
-              onCorroborate={() => {
-                corroborate(signer, accusation.uid);
-              }}
-              onDeny={() => {
-                corroborate(signer, accusation.uid);
-              }}
-            />
+              <Accusation
+                accused={participants[accusation.accused] ?? "unknown"}
+                accuser={participants[accusation.accuser] ?? "unknown"}
+                claim={accusation.content}
+                corroborations={accusation.corroborations}
+                denials={accusation.denials}
+                onCorroborate={() => {
+                  corroborate(signer, accusation.uid);
+                }}
+                onDeny={() => {
+                  deny(signer, accusation.uid);
+                }}
+              />
             </li>
-  
           );
         })}
       </InGame>

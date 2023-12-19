@@ -1,6 +1,6 @@
 
 
-export const Accusation =  ({ uid, accused, accuser, claim, needed, current, onCorroborate, onDeny }) => {
+export const Accusation =  ({ accused, accuser, claim,  onCorroborate, onDeny, corroborations, denials }) => {
   return (
     <div className="p-4 bg-white">
       <h3>
@@ -13,9 +13,13 @@ export const Accusation =  ({ uid, accused, accuser, claim, needed, current, onC
 
       <div>
         <p>
-          {needed} / {current} corroborations
+          {corroborations}  corroborations
         </p>
-        <progress value={current} max={needed} />
+
+        <p>
+          {denials} denials
+        </p>
+        <progress value={corroborations} max={corroborations + denials}/>
       </div>
 
       <div className="flex gap-5">

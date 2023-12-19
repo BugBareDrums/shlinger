@@ -8,7 +8,7 @@ export const corroborate = async (signer, accusationUID) => {
   await makeStatement({
     signer,
     type: "corroboration",
-    aboutAccusation: accusationUID,
+    regardingAccusation: accusationUID,
   });
 };
 
@@ -16,15 +16,13 @@ export const deny = async (signer, accusationUID) => {
   await makeStatement({
     signer,
     type: "denial",
-    aboutAccusation: accusationUID,
+    regardingAccusation: accusationUID,
   });
 };
 
-const makeStatement = async ({ signer, type, aboutAccusation }) => {
+const makeStatement = async ({ signer, type, regardingAccusation }) => {
   await eas.connect(signer);
-  const schemaEncoder = new SchemaEncoder(
-    "bool is_corroboration,string message"
-  );
+  const schemaEncoder = new SchemaEncoder("string type");
   const encodedData = schemaEncoder.encodeData([
     { name: "type", value: type, type: "string" },
   ]);
@@ -35,7 +33,7 @@ const makeStatement = async ({ signer, type, aboutAccusation }) => {
       expirationTime: 0,
       revocable: true,
       data: encodedData,
-      refUID: aboutAccusation,
+      refUID: regardingAccusation,
     },
   });
   const newAttestationUID = await tx.wait();

@@ -17,6 +17,7 @@ const GET_ATTESTATIONS = gql`
       recipient
       decodedDataJson
       attester
+      refUID
     }
   }
 `;
@@ -33,6 +34,8 @@ export const useGetStatements = () => {
   const sortedStatements = [...data.attestations].sort(
     (a, b) => a.time > b.time
   );
+
+  console.log({ sortedStatements });
 
   const statements = sortedStatements.map((statement) => {
     const payload = JSON.parse(statement.decodedDataJson);
