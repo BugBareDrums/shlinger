@@ -22,11 +22,16 @@ export const Accusation =  ({ uid, accused, accuser, claim, needed, current, onC
         <button className="w-full p-2 border-2 border-black">
           corroborate
         </button>
-        <button className="w-full p-2 text-white bg-black border-2 border-black">
-        <button className="p-2 border-2 border-black w-full" onClick={onCorroborate}>
+        <button
+          className="w-full p-2 border-2 border-black"
+          onClick={onCorroborate}
+        >
           corroborate
         </button>
-        <button className="p-2 border-2 border-black bg-black text-white w-full" onClick={onDeny}>
+        <button
+          className="w-full p-2 text-white bg-black border-2 border-black"
+          onClick={onDeny}
+        >
           deny
         </button>
       </div>
