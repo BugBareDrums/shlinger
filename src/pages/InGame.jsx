@@ -5,7 +5,7 @@ import { Window } from "../components/Window";
 
 export const InGame = ({ accusations, participants, children }) => {
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <Sidebar className="flex flex-col justify-between">
         <EventFeed />
 
@@ -21,13 +21,8 @@ export const InGame = ({ accusations, participants, children }) => {
         }}
       >
         <Window>
-          <ul className="flex flex-wrap gap-2">
-            
-             {children}
-            
-          </ul>
+          <ul className="flex flex-wrap gap-2">{children}</ul>
         </Window>
-        
       </main>
     </div>
   );
