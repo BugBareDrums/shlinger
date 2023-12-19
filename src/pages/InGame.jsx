@@ -15,7 +15,7 @@ export const InGame = ({ accusations, participants, children }) => {
       </Sidebar>
 
       <main
-        className="flex items-center justify-center col-span-3 p-4 bg-cover grow"
+        className="flex items-center justify-center col-span-3 p-4 bg-center bg-cover grow"
         style={{
           backgroundImage: "url('/ingame-bg.png')",
         }}
