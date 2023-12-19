@@ -1,10 +1,9 @@
-import { Window } from "../components/Window";
-import { Sidebar } from "../components/Sidebar";
-import { Button } from "../components/Button";
-import { Accusation } from "../Accusation";
 import { EventFeed } from "../EventFeed";
+import { Button } from "../components/Button";
+import { Sidebar } from "../components/Sidebar";
+import { Window } from "../components/Window";
 
-export const InGame = ({ accusations, participants }) => {
+export const InGame = ({ accusations, participants, children }) => {
   return (
     <div className="flex">
       <Sidebar className="flex flex-col justify-between">
@@ -23,21 +22,12 @@ export const InGame = ({ accusations, participants }) => {
       >
         <Window>
           <ul className="flex flex-wrap gap-2">
-            <li>
-              {accusations?.map((accusation) => {
-                return (
-                  <Accusation
-                    accused={participants[accusation.accused]}
-                    accuser={participants[accusation.accuser]}
-                    claim={accusation.content}
-                    needed={0}
-                    current={0}
-                  />
-                );
-              })}
-            </li>
+            
+             {children}
+            
           </ul>
         </Window>
+        
       </main>
     </div>
   );

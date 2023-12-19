@@ -1,6 +1,8 @@
 import { useSDK } from "@metamask/sdk-react";
 import { BrowserProvider } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
+import { Accusation } from "../Accusation";
+import { corroborate } from "../makeStatement";
 import "./App.css";
 import { accuse } from "./accuse";
 import { claimName } from "./claimName";
@@ -10,6 +12,7 @@ import { InGame } from "./pages/InGame";
 
 function App() {
   const [account, setAccount] = useState();
+  const [signer, setSigner] = useState();
   const { sdk, connected, provider } = useSDK();
   const { participants = [] } = useGetParticipants();
   const { accusations = [] } = useGetAccusations();
@@ -27,6 +30,12 @@ function App() {
     }
     return null;
   }, [connected, provider]);
+
+  useEffect(() => {
+    if (ethersProvider) {
+      ethersProvider.getSigner().then(setSigner);
+    }
+  }, [ethersProvider]);
 
   console.log({ accusations });
 
@@ -52,7 +61,28 @@ function App() {
 
   return (
     <div className="App text-left">
-      <InGame accusations={accusations} participants={participants} />
+      <InGame accusations={accusations} participants={participants}>
+        {accusations.map((accusation) => {
+          return (
+            <li>
+                        <Accusation
+              accused={participants[accusation.accused]}
+              accuser={participants[accusation.accuser]}
+              claim={accusation.content}
+              needed={0}
+              current={0}
+              onCorroborate={() => {
+                corroborate(signer, accusation.uid);
+              }}
+              onDeny={() => {
+                corroborate(signer, accusation.uid);
+              }}
+            />
+            </li>
+  
+          );
+        })}
+      </InGame>
 
       <main className=" col-span-3">
         {connected && (
