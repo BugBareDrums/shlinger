@@ -63,9 +63,6 @@ function App() {
 
   console.log({ accusations });
 
-  const hankyImageUrl =
-    "https://png2.cleanpng.com/sh/dc7cadd26161be4e03769467c0b1b7b1/L0KzQYm3VcEyN6F5iZH0aYP2gLBuTf1zNZlmht1ueT33eLa0gBhzcaR5hdN8LYDyf37rkvF4cZ9sRdV1aYCwccP7TcVibmZrSdQ9MEfkQLa9TsU4PmQ9SqUEMUW1RoG9V8Y0PmE4SaU3cH7q/kisspng-mr-hankey-the-christmas-poo-drawing-clip-art-5af5f1b407a0e6.5763823915260676360313.png";
-
   const [displayName, setDisplayName] = useState();
 
   const onSubmit = async () => {
@@ -73,74 +70,66 @@ function App() {
   };
 
   return (
-    <>
-      <div className="wrapper">
-        <div className="inner">
-          <img src={hankyImageUrl} className="App-logo" alt="logo" />
-        </div>
-      </div>
+    <div className="App">
+      <header className="App-header">
+        <h1>Shlinger</h1>
 
-      <div className="App">
-        <header className="App-header">
-          <h1>Shlinger</h1>
-
-          <p>
-            Stop your friends getting any presents this year by slinging some
-            shade.
-          </p>
-          <h2>Participants</h2>
-          {participants &&
-            Object.keys(participants).map((walletAddress) => {
-              const name = participants[walletAddress];
-              return (
-                <div key={walletAddress}>
-                  <p>{name}</p>
-                </div>
-              );
-            })}
-          <h2>Accusations</h2>
-          {accusations.map((accusation) => {
+        <p>
+          Stop your friends getting any presents this year by slinging some
+          shade.
+        </p>
+        <h2>Participants</h2>
+        {participants &&
+          Object.keys(participants).map((walletAddress) => {
+            const name = participants[walletAddress];
             return (
-              <div key={accusation.id}>
-                <p>Against: {participants[accusation.against]}</p>
-                <p>{accusation.content}</p>
-                <h3>Disputes</h3>
-                {accusation.disputes.map((dispute) => {
-                  return (
-                    <div key={dispute.id}>
-                      <p>From: {participants[dispute.from]}</p>
-                      <p>{dispute.content}</p>
-                    </div>
-                  );
-                })}
-                <h3>Confirmations</h3>
-                {accusation.confimations.map((confirmation) => {
-                  return (
-                    <div key={confirmation.id}>
-                      <p>From: {participants[confirmation.from]}</p>
-                      <p>{confirmation.content}</p>
-                    </div>
-                  );
-                })}
+              <div key={walletAddress}>
+                <p>{name}</p>
               </div>
             );
           })}
-          {connected && (
-            <div>
-              <div>{account && `Connected account: ${account}`}</div>
-
-              <label htmlFor="display_name">Claim name</label>
-              <input
-                name="display_name"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-              ></input>
-              <input type="submit" value="Submit" onClick={onSubmit}></input>
+        <h2>Accusations</h2>
+        {accusations.map((accusation) => {
+          return (
+            <div key={accusation.id}>
+              <p>Against: {participants[accusation.against]}</p>
+              <p>{accusation.content}</p>
+              <h3>Disputes</h3>
+              {accusation.disputes.map((dispute) => {
+                return (
+                  <div key={dispute.id}>
+                    <p>From: {participants[dispute.from]}</p>
+                    <p>{dispute.content}</p>
+                  </div>
+                );
+              })}
+              <h3>Confirmations</h3>
+              {accusation.confimations.map((confirmation) => {
+                return (
+                  <div key={confirmation.id}>
+                    <p>From: {participants[confirmation.from]}</p>
+                    <p>{confirmation.content}</p>
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </header>
-      </div>
-    </>
+          );
+        })}
+        {connected && (
+          <div>
+            <div>{account && `Connected account: ${account}`}</div>
+
+            <label htmlFor="display_name">Claim name</label>
+            <input
+              name="display_name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            ></input>
+            <input type="submit" value="Submit" onClick={onSubmit}></input>
+          </div>
+        )}
+      </header>
+    </div>
   );
 }
 
