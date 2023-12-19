@@ -25,6 +25,44 @@ function App() {
     return null;
   }, [connected, provider]);
 
+  console.log({ participants });
+
+  const participantsArray =
+    participants != null
+      ? Object.keys(participants).map((walletAddress) => {
+          return {
+            walletAddress,
+            name: participants[walletAddress],
+          };
+        })
+      : [];
+
+  console.log({ participantsArray });
+
+  const accusations =
+    participants == null
+      ? []
+      : [
+          {
+            against: participantsArray[0]?.walletAddress,
+            content: "They stole my biscuit",
+            disputes: [
+              {
+                from: participantsArray[1]?.walletAddress,
+                content: "That's BS",
+              },
+            ],
+            confimations: [
+              {
+                from: participantsArray[2]?.walletAddress,
+                content: "Literally totes did it",
+              },
+            ],
+          },
+        ];
+
+  console.log({ accusations });
+
   const hankyImageUrl =
     "https://png2.cleanpng.com/sh/dc7cadd26161be4e03769467c0b1b7b1/L0KzQYm3VcEyN6F5iZH0aYP2gLBuTf1zNZlmht1ueT33eLa0gBhzcaR5hdN8LYDyf37rkvF4cZ9sRdV1aYCwccP7TcVibmZrSdQ9MEfkQLa9TsU4PmQ9SqUEMUW1RoG9V8Y0PmE4SaU3cH7q/kisspng-mr-hankey-the-christmas-poo-drawing-clip-art-5af5f1b407a0e6.5763823915260676360313.png";
 
@@ -60,6 +98,33 @@ function App() {
                 </div>
               );
             })}
+          <h2>Accusations</h2>
+          {accusations.map((accusation) => {
+            return (
+              <div key={accusation.id}>
+                <p>Against: {participants[accusation.against]}</p>
+                <p>{accusation.content}</p>
+                <h3>Disputes</h3>
+                {accusation.disputes.map((dispute) => {
+                  return (
+                    <div key={dispute.id}>
+                      <p>From: {participants[dispute.from]}</p>
+                      <p>{dispute.content}</p>
+                    </div>
+                  );
+                })}
+                <h3>Confirmations</h3>
+                {accusation.confimations.map((confirmation) => {
+                  return (
+                    <div key={confirmation.id}>
+                      <p>From: {participants[confirmation.from]}</p>
+                      <p>{confirmation.content}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
           {connected && (
             <div>
               <div>{account && `Connected account: ${account}`}</div>
