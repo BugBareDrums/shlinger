@@ -1,5 +1,6 @@
 import { Accusation } from "../Accusation";
 import { EventFeed } from "../EventFeed";
+import { corroborate } from "../makeStatement";
 
 export const InGame = ({ accusations, participants }) => {
   return (
@@ -22,6 +23,8 @@ export const InGame = ({ accusations, participants }) => {
               claim={accusation.content}
               needed={0}
               current={0}
+              onCorroborate={() => { corroborate(signer, accusation.uid) }}
+              onDeny={() => {corroborate(signer, accusation.uid)}}
             />
           );
         })}

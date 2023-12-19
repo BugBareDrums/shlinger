@@ -4,18 +4,31 @@ const schemaUID =
   "0x5bd7a293df49c2ffe2834ff118cefba75d8e4d9a027a0e55865918b5fa2a55f0";
 const eas = new EAS(easContractAddress);
 
-export const makeStatement = async ({
-  signer,
-  isCorroboration,
-  message,
-  aboutAccusation,
-}) => {
+export const corroborate = async (signer, accusationUID) => {
+  await makeStatement({
+    signer,
+    type: "corroboration",
+    message: "",
+    aboutAccusation: accusationUID,
+  });
+};
+
+export const deny = async (signer, accusationUID) => {
+  await makeStatement({
+    signer,
+    type: "denial",
+    message,
+    aboutAccusation: accusationUID,
+  });
+};
+
+const makeStatement = async ({ signer, type, message, aboutAccusation }) => {
   await eas.connect(signer);
   const schemaEncoder = new SchemaEncoder(
     "bool is_corroboration,string message"
   );
   const encodedData = schemaEncoder.encodeData([
-    { name: "is_corroboration", value: isCorroboration, type: "bool" },
+    { name: "type", value: type, type: "string" },
     { name: "message", value: message, type: "string" },
   ]);
   const tx = await eas.attest({

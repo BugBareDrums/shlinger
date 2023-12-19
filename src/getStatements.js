@@ -5,7 +5,7 @@ const GET_ATTESTATIONS = gql`
     attestations(
       where: {
         schemaId: {
-          equals: "0x5bd7a293df49c2ffe2834ff118cefba75d8e4d9a027a0e55865918b5fa2a55f0"
+          equals: "0x38d9a0c6541a923e3d5e9945dbd216bc30f146bfa83c99c52db6d6b54f133ce7"
         }
       }
     ) {
@@ -39,8 +39,7 @@ export const useGetStatements = () => {
     return {
       author: statement.attester,
       regardingAccusation: statement.refUID,
-      isCorroboration: payload[0].value.value,
-      message: payload[1].value.value,
+      type: payload[0].value.value,
     };
   }, {});
 

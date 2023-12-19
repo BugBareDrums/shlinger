@@ -37,6 +37,7 @@ export const useGetAccusations = () => {
   const accusations = sortedAccusations.map((att) => {
     const payload = JSON.parse(att.decodedDataJson);
     return {
+      uid: att.id,
       accuser: att.attester,
       accused: att.recipient,
       content: payload[1].value.value,
