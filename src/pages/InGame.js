@@ -1,7 +1,7 @@
-import { Acc } from "../Acc";
+import { Accusation } from "../Accusation";
 import { EventFeed } from "../EventFeed";
 
-export const InGame = () => {
+export const InGame = ({ accusations, participants }) => {
   return (
     <div className="h-full grid grid-cols-4">
       <aside className="col-span-1">
@@ -14,13 +14,17 @@ export const InGame = () => {
           backgroundImage: "/ingame-bg.png",
         }}
       >
-        <Acc
-          personA="peter"
-          personB="paul"
-          claim="sells avon"
-          needed={5}
-          current={1}
-        />
+        {accusations?.map((accusation) => {
+          return (
+            <Accusation
+              accused={participants[accusation.accused]}
+              accuser={participants[accusation.accuser]}
+              claim={accusation.content}
+              needed={0}
+              current={0}
+            />
+          );
+        })}
       </main>
     </div>
   );

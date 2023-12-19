@@ -1,31 +1,29 @@
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-const easContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
-const schemaUID =
-  "0x94d2ee2cf932ae7585a156e130301464e743ca7fad607f4f095d962c250ce322";
-const eas = new EAS(easContractAddress);
+export const Accusation = ({ accused, accuser, claim, needed, current }) => {
+  return (
+    <div className="p-4 bg-white">
+      <h3>
+        <strong className="font-bold text-blue-500">{accuser}</strong>{" "}
+        <span>accuses</span>{" "}
+        <strong className="font-bold text-green-500">{accused}</strong>
+      </h3>
 
-export const accuse = async (signer, against, content) => {
-  console.log({ signer, against, content });
-  eas.connect(signer);
+      <p>{claim}</p>
 
-  const schemaEncoder = new SchemaEncoder("address against,string content");
-  const encodedData = schemaEncoder.encodeData([
-    {
-      name: "against",
-      value: against,
-      type: "address",
-    },
-    { name: "content", value: content, type: "string" },
-  ]);
-  const tx = await eas.attest({
-    schema: schemaUID,
-    data: {
-      recipient: against,
-      expirationTime: 0,
-      revocable: true,
-      data: encodedData,
-    },
-  });
-  const newAttestationUID = await tx.wait();
-  console.log("New attestation UID:", newAttestationUID);
+      <div>
+        <p>
+          {needed} / {current} corroborations
+        </p>
+        <progress value={current} max={needed} />
+      </div>
+
+      <div className="flex gap-5">
+        <button className="p-2 border-2 border-black w-full">
+          corroborate
+        </button>
+        <button className="p-2 border-2 border-black bg-black text-white w-full">
+          deny
+        </button>
+      </div>
+    </div>
+  );
 };

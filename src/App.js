@@ -2,7 +2,7 @@ import { useSDK } from "@metamask/sdk-react";
 import { BrowserProvider } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import { accuse } from "./accusation";
+import { accuse } from "./accuse";
 import { claimName } from "./claimName";
 import { useGetAccusations } from "./getAccusations";
 import { useGetParticipants } from "./getParticipants";
@@ -52,18 +52,9 @@ function App() {
 
   return (
     <div className="App text-left">
-      <InGame />
+      <InGame accusations={accusations} participants={participants} />
 
       <main className=" col-span-3">
-        <h2 className="text-xl font-bold">Accusations</h2>
-        {accusations.map((accusation) => {
-          return (
-            <div key={accusation.id}>
-              <p>Against: {participants[accusation.against]}</p>
-              <p>{accusation.content}</p>
-            </div>
-          );
-        })}
         {connected && (
           <form onSubmit={onSubmitAccusation}>
             <div className="flex flex-col gap-1">
