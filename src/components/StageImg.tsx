@@ -7,3 +7,7 @@ const imgs: Record<Stages, string> = {
   truth: "/truth.png",
   lie: "/lie.png",
 };
+
+export const StageImg = ({ stage }: { stage: Stages }) => {
+  return <img src={imgs[stage]} alt={stage} />;
+};
