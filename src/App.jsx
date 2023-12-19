@@ -1,60 +1,36 @@
-import { useSDK } from "@metamask/sdk-react";
-import { BrowserProvider } from "ethers";
-import React, { useEffect, useMemo, useState } from "react";
+import { Button } from "@components/button";
+
+import React from "react";
 import "./App.css";
-import { accuse } from "./accuse";
-import { claimName } from "./claimName";
-import { useGetAccusations } from "./getAccusations";
-import { useGetParticipants } from "./getParticipants";
 import { InGame } from "./pages/InGame";
+import { useAccusor } from "./hooks/useAccusor";
+import { useGetParticipants } from "./getParticipants";
+import { useGetAccusations } from "./getAccusations";
 
 function App() {
-  const [account, setAccount] = useState();
-  const { sdk, connected, provider } = useSDK();
-  const { participants = [] } = useGetParticipants();
-  const { accusations = [] } = useGetAccusations();
+  const { participants } = useGetParticipants();
+  const { accusations } = useGetAccusations();
 
-  useEffect(() => {
-    sdk
-      ?.connect()
-      .then((accounts) => setAccount(accounts?.[0]))
-      .catch((err) => console.warn(`failed to connect..`, err));
-  });
-
-  const ethersProvider = useMemo(() => {
-    if (connected && provider) {
-      return new BrowserProvider(provider);
-    }
-    return null;
-  }, [connected, provider]);
-
-  console.log({ accusations });
+  const { setName, accuse, connected, account } = useAccusor;
 
   const onSubmitName = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-
-    await claimName(
-      await ethersProvider.getSigner(),
-      formData.get("display_name")
-    );
+    setName(formData.get("display_name"));
   };
+
   const onSubmitAccusation = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    await accuse(
-      await ethersProvider.getSigner(),
-      formData.get("against"),
-      formData.get("accusation")
-    );
+    accuse(formData.get("accusation"), formData.get("against"));
   };
 
   return (
-    <div className="App text-left">
+    <div className="text-left App">
       <InGame accusations={accusations} participants={participants} />
 
-      <main className=" col-span-3">
+      <main className="col-span-3 ">
         {connected && (
           <form onSubmit={onSubmitAccusation}>
             <div className="flex flex-col gap-1">
@@ -64,7 +40,7 @@ function App() {
               <div>
                 <input
                   name="accusation"
-                  className="border-2 p-2 rounded-s-lg"
+                  className="p-2 border-2 rounded-s-lg"
                 ></input>
                 <select name="against">
                   {Object.keys(participants).map((walletAddress) => {
@@ -76,11 +52,7 @@ function App() {
                     );
                   })}
                 </select>
-                <input
-                  type="submit"
-                  className="bg-blue-500 p-2 rounded-e-lg text-white"
-                  value="Submit"
-                ></input>
+                <Button type="submit">Submit</Button>
               </div>
             </div>
           </form>
@@ -95,14 +67,9 @@ function App() {
               <div>
                 <input
                   name="display_name"
-                  className="border-2 p-2 rounded-s-lg"
+                  className="p-2 border-2 rounded-s-lg"
                 />
-                <button
-                  className="bg-blue-500 p-2 rounded-e-lg text-white"
-                  type="submit"
-                >
-                  submit
-                </button>
+                <Button type="submit">submit</Button>
               </div>
             </div>
           </form>

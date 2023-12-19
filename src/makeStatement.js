@@ -17,7 +17,7 @@ export const deny = async (signer, accusationUID) => {
   await makeStatement({
     signer,
     type: "denial",
-    message,
+    message: "",
     aboutAccusation: accusationUID,
   });
 };

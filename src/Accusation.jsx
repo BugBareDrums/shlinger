@@ -1,6 +1,16 @@
+import { Button } from "@components/Button";
+import { Progress } from "@components/Progress";
 
-
-export const Accusation =  ({ uid, accused, accuser, claim, needed, current, onCorroborate, onDeny }) => {
+export const Accusation = ({
+  uid,
+  accused,
+  accuser,
+  claim,
+  needed,
+  current,
+  onCorroborate,
+  onDeny,
+}) => {
   return (
     <div className="p-4 bg-white">
       <h3>
@@ -11,24 +21,20 @@ export const Accusation =  ({ uid, accused, accuser, claim, needed, current, onC
 
       <p>{claim}</p>
 
-      <div>
-        <p>
-          {needed} / {current} corroborations
-        </p>
-        <progress value={current} max={needed} />
-      </div>
+      <Progress
+        current={current}
+        max={needed}
+        className="w-full mt-2 mb-4"
+        variant="bad"
+      />
 
-      <div className="flex gap-5">
-        <button className="w-full p-2 border-2 border-black">
+      <div className="grid grid-cols-2 gap-1">
+        <Button className="w-full" variant="primary" onClick={onCorroborate}>
           corroborate
-        </button>
-        <button className="w-full p-2 text-white bg-black border-2 border-black">
-        <button className="p-2 border-2 border-black w-full" onClick={onCorroborate}>
-          corroborate
-        </button>
-        <button className="p-2 border-2 border-black bg-black text-white w-full" onClick={onDeny}>
+        </Button>
+        <Button className="w-full" variant="secondary" onClick={onDeny}>
           deny
-        </button>
+        </Button>
       </div>
     </div>
   );
