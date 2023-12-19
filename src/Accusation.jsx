@@ -19,9 +19,6 @@ export const Accusation =  ({ uid, accused, accuser, claim, needed, current, onC
       </div>
 
       <div className="flex gap-5">
-        <button className="w-full p-2 border-2 border-black">
-          corroborate
-        </button>
         <button
           className="w-full p-2 border-2 border-black"
           onClick={onCorroborate}

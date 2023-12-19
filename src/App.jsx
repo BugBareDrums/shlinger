@@ -1,13 +1,13 @@
 import { useSDK } from "@metamask/sdk-react";
 import { BrowserProvider } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
-import { Accusation } from "../Accusation";
-import { corroborate } from "../makeStatement";
+import { Accusation } from "./Accusation";
 import "./App.css";
 import { accuse } from "./accuse";
 import { claimName } from "./claimName";
 import { useGetAccusations } from "./getAccusations";
 import { useGetParticipants } from "./getParticipants";
+import { corroborate } from "./makeStatement";
 import { InGame } from "./pages/InGame";
 
 function App() {
