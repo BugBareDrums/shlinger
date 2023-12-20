@@ -1,13 +1,14 @@
+
 import { EventFeed } from "../EventFeed";
 import { Button } from "../components/Button";
 import { Sidebar } from "../components/Sidebar";
 import { Window } from "../components/Window";
 
-export const InGame = ({ accusations, participants, children }) => {
+export const InGame = ({ accusations, participants, statements, children }) => {
   return (
     <div className="flex min-h-screen">
       <Sidebar className="flex flex-col justify-between">
-        <EventFeed />
+        <EventFeed accusations={accusations} participants={participants} statements={statements} />
 
         <Button variant="lively" className="w-full font-bold">
           spread the xmas cheer!

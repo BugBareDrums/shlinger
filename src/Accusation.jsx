@@ -1,6 +1,13 @@
-
-
-export const Accusation =  ({ accused, accuser, claim,  onCorroborate, onDeny, corroborations, denials }) => {
+import { Progress } from "./components/Progress";
+export const Accusation = ({
+  accused,
+  accuser,
+  claim,
+  onCorroborate,
+  onDeny,
+  corroborations,
+  denials,
+}) => {
   return (
     <div className="p-4 bg-white">
       <h3>
@@ -9,17 +16,11 @@ export const Accusation =  ({ accused, accuser, claim,  onCorroborate, onDeny, c
         <strong className="font-bold text-green-500">{accused}</strong>
       </h3>
 
-      <p>{claim}</p>
+      <p className="font-bold p-3">{claim}</p>
 
       <div>
-        <p>
-          {corroborations}  corroborations
-        </p>
-
-        <p>
-          {denials} denials
-        </p>
-        <progress value={corroborations} max={corroborations + denials}/>
+        <Progress current={corroborations} max={3} variant="good" />
+        <Progress current={denials} max={3} variant="bad" />
       </div>
 
       <div className="flex gap-5">

@@ -1,5 +1,5 @@
 import { useSDK } from "@metamask/sdk-react";
-import { BrowserProvider, JsonRpcSigner } from "ethers";
+import { BrowserProvider,  } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { Accusation } from "./Accusation";
 import "./App.css";
@@ -13,10 +13,10 @@ import { InGame } from "./pages/InGame";
 
 function App() {
   const [account, setAccount] = useState();
-  const [signer, setSigner] = useState<JsonRpcSigner>();
+  const [signer, setSigner] = useState();
   const { sdk, connected, provider } = useSDK();
   const { participants = [] } = useGetParticipants();
-  const { accusations = [] } = useGetAccusations();
+  const { accusations = [], statements = [] } = useGetAccusations();
 
   useEffect(() => {
     sdk
@@ -38,8 +38,6 @@ function App() {
     }
   }, [ethersProvider]);
 
-  console.log({ accusations });
-
   const onSubmitName = async (e) => {
     e.preventDefault();
 
@@ -47,6 +45,7 @@ function App() {
 
     await claimName(signer, formData.get("display_name"));
   };
+
   const onSubmitAccusation = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -55,7 +54,11 @@ function App() {
 
   return (
     <div className="App text-left">
-      <InGame accusations={accusations} participants={participants}>
+      <InGame
+        accusations={accusations}
+        participants={participants}
+        statements={statements}
+      >
         {accusations.map((accusation) => {
           return (
             <li>
@@ -66,10 +69,10 @@ function App() {
                 corroborations={accusation.corroborations}
                 denials={accusation.denials}
                 onCorroborate={() => {
-                  corroborate(signer, accusation.uid);
+                  corroborate(signer, accusation.uid, accusation.accused);
                 }}
                 onDeny={() => {
-                  deny(signer, accusation.uid);
+                  deny(signer, accusation.uid, accusation.accused);
                 }}
               />
             </li>
@@ -102,7 +105,7 @@ function App() {
                 <input
                   type="submit"
                   className="bg-blue-500 p-2 rounded-e-lg text-white"
-                  value="Submit"
+                  value="submit"
                 ></input>
               </div>
             </div>
@@ -131,19 +134,6 @@ function App() {
           </form>
         )}
       </main>
-
-      <aside className="">
-        <h2 className="text-xl font-bold">Participants</h2>
-        {participants &&
-          Object.keys(participants).map((walletAddress) => {
-            const name = participants[walletAddress];
-            return (
-              <div key={walletAddress}>
-                <p>{name}</p>
-              </div>
-            );
-          })}
-      </aside>
     </div>
   );
 }

@@ -30,8 +30,8 @@ export const useGetParticipants = () => {
     return { participants: [], loading, error };
   }
 
-  const sortedParticipants = [...data.attestations].sort(
-    (a, b) => a.time > b.time
+  const sortedParticipants = [...data.attestations].sort((a, b) =>
+    a.time > b.time ? 1 : -1
   );
 
   const participants = sortedParticipants?.reduce((acc, curr) => {
