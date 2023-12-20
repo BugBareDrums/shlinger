@@ -1,48 +1,20 @@
-import { useSDK } from "@metamask/sdk-react";
-import { BrowserProvider,  } from "ethers";
-import React, { useEffect, useMemo, useState } from "react";
-import { Accusation } from "./Accusation";
+import React from "react";
 import "./App.css";
 import { accuse } from "./accuse";
 import { claimName } from "./claimName";
 import { useGetAccusations } from "./getAccusations";
 import { useGetParticipants } from "./getParticipants";
-
-import { corroborate, deny } from "./makeStatement";
 import { InGame } from "./pages/InGame";
+import { useShit } from "./useShit";
 
 function App() {
-  const [account, setAccount] = useState();
-  const [signer, setSigner] = useState();
-  const { sdk, connected, provider } = useSDK();
   const { participants = [] } = useGetParticipants();
   const { accusations = [], statements = [] } = useGetAccusations();
-
-  useEffect(() => {
-    sdk
-      ?.connect()
-      .then((accounts) => setAccount(accounts?.[0]))
-      .catch((err) => console.warn(`failed to connect..`, err));
-  });
-
-  const ethersProvider = useMemo(() => {
-    if (connected && provider) {
-      return new BrowserProvider(provider);
-    }
-    return null;
-  }, [connected, provider]);
-
-  useEffect(() => {
-    if (ethersProvider) {
-      ethersProvider.getSigner().then((s) => setSigner(s));
-    }
-  }, [ethersProvider]);
+  const { signer, connected } = useShit();
 
   const onSubmitName = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.target);
-
     await claimName(signer, formData.get("display_name"));
   };
 
@@ -58,29 +30,10 @@ function App() {
         accusations={accusations}
         participants={participants}
         statements={statements}
-      >
-        {accusations.map((accusation) => {
-          return (
-            <li>
-              <Accusation
-                accused={participants[accusation.accused] ?? "unknown"}
-                accuser={participants[accusation.accuser] ?? "unknown"}
-                claim={accusation.content}
-                corroborations={accusation.corroborations}
-                denials={accusation.denials}
-                onCorroborate={() => {
-                  corroborate(signer, accusation.uid, accusation.accused);
-                }}
-                onDeny={() => {
-                  deny(signer, accusation.uid, accusation.accused);
-                }}
-              />
-            </li>
-          );
-        })}
-      </InGame>
+        onSubmitAccusation={onSubmitAccusation}
+      ></InGame>
 
-      <main className=" col-span-3">
+      <main className="col-span-3">
         {connected && (
           <form onSubmit={onSubmitAccusation}>
             <div className="flex flex-col gap-1">
@@ -113,7 +66,6 @@ function App() {
         )}
         {connected && (
           <form onSubmit={onSubmitName}>
-            <div>{account && `Connected account: ${account}`}</div>
             <div className="flex flex-col gap-1">
               <label htmlFor="display_name" className="font-bold">
                 Claim name

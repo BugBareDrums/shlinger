@@ -1,26 +1,25 @@
 import { Progress } from "./components/Progress";
+import { Window } from "./components/Window";
+
+
 export const Accusation = ({
-  accused,
-  accuser,
-  claim,
+  accusation,
   onCorroborate,
   onDeny,
-  corroborations,
-  denials,
+  participants
+
 }) => {
   return (
-    <div className="p-4 bg-white">
-      <h3>
-        <strong className="font-bold text-blue-500">{accuser}</strong>{" "}
-        <span>accuses</span>{" "}
-        <strong className="font-bold text-green-500">{accused}</strong>
-      </h3>
-
-      <p className="font-bold p-3">{claim}</p>
-
+    <Window key={accusation.uid}>
+      <Window.Img stage="accused" />
+      <Window.Title>
+        {participants[accusation.accuser] ?? "unknown"} has accused{" "}
+        {participants[accusation.accused] ?? "unknown"}
+      </Window.Title>
+      <Window.Subtitle>"{accusation.content}"</Window.Subtitle>
       <div>
-        <Progress current={corroborations} max={3} variant="good" />
-        <Progress current={denials} max={3} variant="bad" />
+        <Progress current={accusation.corroborations} max={3} variant="good" />
+        <Progress current={accusation.denials} max={3} variant="bad" />
       </div>
 
       <div className="flex gap-5">
@@ -37,6 +36,6 @@ export const Accusation = ({
           deny
         </button>
       </div>
-    </div>
+    </Window>
   );
 };

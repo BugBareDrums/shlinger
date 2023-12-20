@@ -16,11 +16,12 @@ export const Progress = ({ current, max, variant }: ProgressBarProps) => {
         {current} people say this is a {variant === "good" ? "true" : "false"}{" "}
         doo-doo
       </p>
-      <progress
-        value={current}
-        max={max}
-        className={`rounded w-full h-2 overflow-hidden ${variantClasses[variant]}`}
-      />
+      <div className="w-full bg-gray-200 rounded h-2 dark:bg-gray-700 m-3">
+        <div
+          className={`rounded w-full h-2 overflow-hidden ${variantClasses[variant]}`}
+          style={{ width: `${(current / max) * 100}%` }}
+        ></div>
+      </div>
     </div>
   );
 };
