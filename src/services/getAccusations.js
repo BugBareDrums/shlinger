@@ -134,11 +134,11 @@ const toSortedAccusations = (dataAccustions, statements) => {
 
 export const useGetAccusations = () => {
   const { data: dataStatements } = useQuery(GET_STATEMENTS, {
-    pollInterval: 500,
+    // pollInterval: 500,
   });
 
   const { data: dataAccustions } = useQuery(GET_ACCUSATIONS, {
-    pollInterval: 500,
+    // pollInterval: 500,
   });
 
   if (dataAccustions == null || dataAccustions.attestations == null) {

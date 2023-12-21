@@ -4,7 +4,6 @@ import { BrowserProvider, } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-
 export const useShit = () => {
   const [signer, setSigner] = useState();
   const [address, setAddress] = useState();
@@ -25,15 +24,12 @@ export const useShit = () => {
 
   useEffect(() => {
     if (ethersProvider) {
-      ethersProvider.getSigner().then((s) => setSigner(s));
+      ethersProvider.getSigner().then((s) => {
+        s.getAddress().then((a) => setAddress(a));
+        setSigner(s);
+      });
     }
-  }, [ethersProvider]);
-
-  useEffect(() => {
-    if (signer) {
-      signer.getAddress().then((a) => setAddress(a));
-    }
-  }, [signer])
+  }, [ethersProvider, signer]);
 
   return { signer, connected, address, connecting }
 }
