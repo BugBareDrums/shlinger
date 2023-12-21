@@ -8,8 +8,8 @@ const tokenAddress = "0x60C7896E0a08308ADE5173Bd6f4b15B621DA905F";
 
 export const useGetBalances = (participants, signer) => {
   const [balances, setBalances] = useState([]);
-
   useEffect(() => {
+    if (!participants || !signer) return;
     getBalances(participants, signer).then((balances) => {
       balances.sort((a, b) => b.coal - b.candy - (a.coal - a.candy));
 

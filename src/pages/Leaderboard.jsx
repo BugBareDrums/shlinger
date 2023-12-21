@@ -7,8 +7,9 @@ export const LeaderboardPage = () => {
   const { participants = [] } = useGetParticipants();
   const { balances } = useGetBalances(participants, signer);
 
-  if (!connected || balances == null || balances.length === 0 || !signer) return null;
-
+  if (!connected || balances == null || balances.length === 0 || !signer)  {
+    return null
+  }
   return (
     <div className="bg-red-700 p-6 rounded-md text-white">
         <h1 className="text-3xl font-bold">Naughty List</h1>
