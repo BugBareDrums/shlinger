@@ -7,6 +7,7 @@ import "./App.css";
 
 export const useShit = () => {
   const [signer, setSigner] = useState();
+  const [address, setAddress] = useState();
   const { sdk, connected, provider } = useSDK();
 
   useEffect(() => {
@@ -28,5 +29,11 @@ export const useShit = () => {
     }
   }, [ethersProvider]);
 
-  return { signer, connected }
+  useEffect(() => {
+    if (signer) {
+      signer.getAddress().then((a) => setAddress(a));
+    }
+  }, [signer])
+
+  return { signer, connected, address }
 }

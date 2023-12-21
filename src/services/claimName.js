@@ -1,4 +1,5 @@
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { useQuery, gql } from "@apollo/client";
 
 const easContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
 const schemaUID =
@@ -26,3 +27,42 @@ export const claimName = async (signer, display_name) => {
   const newAttestationUID = await tx.wait();
   return newAttestationUID;
 };
+
+const GET_NAME = gql`
+query GetName($address: String!, $schemaId: String!) {
+  findFirstAttestation(where: {
+    attester: {
+      equals: $address
+    },
+    schemaId: {
+      equals: $schemaId
+    }
+  }){
+    id
+    data
+    decodedDataJson
+    attester
+    recipient
+    refUID
+    schemaId
+  }
+}
+`
+
+export const useGetName = (address) => {
+  const {data, loading} = useQuery(GET_NAME, {
+    variables: {
+      address,
+      schemaId: schemaUID
+    }
+  })
+  if (loading || !address) return {
+    loading,
+    name: null
+  };
+  const decoded = JSON.parse(data.findFirstAttestation.decodedDataJson);
+  return {
+    loading,
+    name: decoded[0].value.value
+  }
+}

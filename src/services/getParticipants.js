@@ -31,7 +31,7 @@ export const useGetParticipants = () => {
   }
 
   const sortedParticipants = [...data.attestations].sort((a, b) =>
-    a.time > b.time ? 1 : -1
+    a.time < b.time ? 1 : -1
   );
 
   const participants = sortedParticipants?.reduce((acc, curr) => {
