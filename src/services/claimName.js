@@ -30,13 +30,15 @@ export const claimName = async (signer, display_name) => {
 
 const GET_NAME = gql`
 query GetName($address: String!, $schemaId: String!) {
-  findFirstAttestation(where: {
+  attestations(where: {
     attester: {
       equals: $address
     },
     schemaId: {
       equals: $schemaId
     }
+  }, orderBy: {
+    timeCreated: desc
   }){
     id
     data
@@ -45,24 +47,33 @@ query GetName($address: String!, $schemaId: String!) {
     recipient
     refUID
     schemaId
+    time
   }
 }
+
 `
 
 export const useGetName = (address) => {
-  const {data, loading} = useQuery(GET_NAME, {
+  const {data, loading, refetch} = useQuery(GET_NAME, {
     variables: {
-      address,
+      address: address ? address : "",
       schemaId: schemaUID
     }
   })
-  if (loading || !address || !data.findFirstAttestation) return {
+  console.log({
     loading,
-    name: null
+    data,
+    address
+  })
+  if (loading || !address || !data.attestations || !data.attestations[0]) return {
+    loading,
+    name: null,
+    refetch
   };
-  const decoded = JSON.parse(data.findFirstAttestation.decodedDataJson);
+  const decoded = JSON.parse(data.attestations[0].decodedDataJson);
   return {
     loading,
-    name: decoded[0].value.value
+    name: decoded[0].value.value,
+    refetch
   }
 }
