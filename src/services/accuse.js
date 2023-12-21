@@ -5,7 +5,6 @@ const schemaUID =
 const eas = new EAS(easContractAddress);
 
 export const accuse = async (signer, against, content) => {
-  console.log({ signer, against, content });
   eas.connect(signer);
 
   const schemaEncoder = new SchemaEncoder("address against,string content");

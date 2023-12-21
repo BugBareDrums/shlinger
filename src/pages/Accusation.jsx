@@ -20,10 +20,10 @@ export const AccusationPage = () => {
       accusation={accusation}
       participants={participants}
       onCorroborate={() => {
-        corroborate(signer, accusation.uid, accusation.accused);
+        corroborate(signer, accusation);
       }}
       onDeny={() => {
-        deny(signer, accusation.uid, accusation.accused);
+        deny(signer, accusation);
       }}
     />
   );
