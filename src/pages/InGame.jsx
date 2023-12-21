@@ -1,16 +1,30 @@
 import { useState } from "react";
 import { Accusation } from "../Accusation";
 import { EventFeed } from "../EventFeed";
+import { accuse } from "../accuse";
 import { Button } from "../components/Button";
 import { Sidebar } from "../components/Sidebar";
 import { Window } from "../components/Window";
 import { corroborate, deny } from "../makeStatement";
 import { useShit } from "../useShit";
 
-export const InGame = ({ accusations, participants, statements, onSubmitAccusation }) => {
+export const InGame = ({ accusations, participants, statements }) => {
   const { signer } = useShit();
 
   const [state, setState] = useState("accusations");
+
+  const onSubmitAccusation = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    setState("accusations");
+
+    try{
+       await accuse(signer, formData.get("against"), formData.get("accusation"));
+    }
+    catch(err){
+      console.error(err);
+    }
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -27,7 +41,7 @@ export const InGame = ({ accusations, participants, statements, onSubmitAccusati
       </Sidebar>
 
       <main
-        className="flex items-center justify-center col-span-2 p-10 bg-center bg-cover grow space-x-4"
+        className="flex flex-wrap items-center justify-center col-span-3 p-10 bg-center bg-cover grow space-x-4"
         style={{
           backgroundImage: "url('/ingame-bg.png')",
         }}

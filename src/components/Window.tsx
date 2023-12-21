@@ -26,7 +26,9 @@ const Subtitle = ({ children }: { children: React.ReactNode }) => {
 
 export const Window = ({ children, className }: WindowProps) => {
   return (
-    <div className={`text-center bg-white p-4 ${className}`}>{children}</div>
+    <div className={`text-center bg-white p-4 m-2 ${className}`}>
+      {children}
+    </div>
   );
 };
 
