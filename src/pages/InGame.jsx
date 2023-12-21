@@ -5,6 +5,7 @@ import { Sidebar } from "../components/Sidebar";
 import { Window } from "../components/Window";
 import { accuse } from "../services/accuse";
 import { useShit } from "../useShit";
+import { useIsLoggedIn } from "../services/useIsLoggedIn";
 
 export const InGame = ({ accusations, participants, statements }) => {
   const { signer } = useShit();
