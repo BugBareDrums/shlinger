@@ -33,7 +33,7 @@ export const Root = () => {
         </div>
       </Sidebar>
       <main
-        className="flex flex-wrap items-center justify-center col-span-3 p-10 bg-center bg-cover grow space-x-4"
+        className="flex flex-wrap items-center justify-center col-span-3 p-10 bg-center bg-cover grow space-x-4 overflow-scroll"
         style={{
           backgroundImage: "url('/ingame-bg.png')",
         }}

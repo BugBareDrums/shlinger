@@ -3,7 +3,7 @@ type WindowProps = {
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLDivElement>;
 
-type Stages = "accuse" | "accused" | "defending" | "truth" | "lie";
+type Stages = "accuse" | "accused" | "defending" | "truth" | "lie" | "welcome";
 
 const imgs: Record<Stages, string> = {
   accuse: "/accuse.png",
@@ -11,6 +11,7 @@ const imgs: Record<Stages, string> = {
   defending: "/defending.png",
   truth: "/truth.png",
   lie: "/lie.png",
+  welcome: "/welcome.jpeg",
 };
 
 export const Img = ({ stage }: { stage: Stages }) => {
