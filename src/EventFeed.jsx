@@ -18,6 +18,7 @@ export const EventFeed = ({ accusations, participants, statements }) => {
                 personA={participants[summary.personA] ?? "unknown"}
                 personB={participants[summary.personB]?? "unknown"}
                 eventName={summary.eventName}
+                uid={summary.regardingAccusation}
               />
             </li>
           );

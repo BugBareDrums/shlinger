@@ -1,20 +1,17 @@
-import { useState } from "react";
-import { EventFeed } from "../EventFeed";
-import { Button } from "../components/Button";
-import { Sidebar } from "../components/Sidebar";
+import { useOutletContext } from "react-router-dom";
 import { Window } from "../components/Window";
 import { accuse } from "../services/accuse";
 import { useShit } from "../useShit";
 
-export const InGame = ({ accusations, participants, statements }) => {
-  const { signer } = useShit();
 
-  const [state, setState] = useState("accusations");
+export const Accuse = () => {
+  const { signer } = useShit();
+  const {participants} = useOutletContext();
    
+
   const onSubmitAccusation = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    setState("accusations");
 
     try{
        await accuse(signer, formData.get("against"), formData.get("accusation"));
@@ -26,7 +23,7 @@ export const InGame = ({ accusations, participants, statements }) => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar className="flex flex-col justify-between">
+      {/* <Sidebar className="flex flex-col justify-between">
         <EventFeed
           accusations={accusations}
           participants={participants}
@@ -36,7 +33,7 @@ export const InGame = ({ accusations, participants, statements }) => {
         <Button variant="lively" className="w-full font-bold" onClick={() => setState("accuse")}>
           spread the xmas cheer!
         </Button>
-      </Sidebar>
+      </Sidebar> */}
 
       <main
         className="flex flex-wrap items-center justify-center col-span-3 p-10 bg-center bg-cover grow space-x-4"
@@ -44,7 +41,7 @@ export const InGame = ({ accusations, participants, statements }) => {
           backgroundImage: "url('/ingame-bg.png')",
         }}
       >
-        {state === "accuse" && (
+ 
           <Window>
             <Window.Img stage="accuse" />
             <Window.Title>Make an accusation</Window.Title>
@@ -73,7 +70,9 @@ export const InGame = ({ accusations, participants, statements }) => {
               </div>
             </form>
           </Window>
-          )}
+      
+
+  
 
       </main>
     </div>

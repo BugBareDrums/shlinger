@@ -4,21 +4,21 @@ const schemaUID =
   "0x38d9a0c6541a923e3d5e9945dbd216bc30f146bfa83c99c52db6d6b54f133ce7";
 const eas = new EAS(easContractAddress);
 
-export const corroborate = async (signer, accusationUID, accussed) => {
+export const corroborate = async (signer, accusationUID, accused) => {
   await makeStatement({
     signer,
     type: "corroboration",
     regardingAccusation: accusationUID,
-    accussed,
+    accussed: accused,
   });
 };
 
-export const deny = async (signer, accusationUID, accussed) => {
+export const deny = async (signer, accusationUID, accused) => {
   await makeStatement({
     signer,
     type: "denial",
     regardingAccusation: accusationUID,
-    accussed,
+    accussed: accused,
   });
 };
 
@@ -26,7 +26,7 @@ const makeStatement = async ({
   signer,
   type,
   regardingAccusation,
-  accussed,
+  accussed: accused,
 }) => {
   await eas.connect(signer);
   const schemaEncoder = new SchemaEncoder("string type");
@@ -36,13 +36,12 @@ const makeStatement = async ({
   const tx = await eas.attest({
     schema: schemaUID,
     data: {
-      recipient: accussed,
+      recipient: accused,
       expirationTime: 0,
       revocable: true,
       data: encodedData,
       refUID: regardingAccusation,
     },
   });
-  const newAttestationUID = await tx.wait();
-  console.log("New attestation UID:", newAttestationUID);
+  await tx.wait();
 };

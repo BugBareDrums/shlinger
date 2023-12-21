@@ -21,6 +21,20 @@ const GET_ACCUSATIONS = gql`
   }
 `;
 
+const GET_ACCUSATION = gql`
+  query GetAttestation($uid: String!) {
+    attestation(where: { id: $uid }) {
+      id
+      data
+      decodedDataJson
+      attester
+      recipient
+      refUID
+      schemaId
+    }
+  }
+`;
+
 const GET_STATEMENTS = gql`
   query ExampleQuery {
     attestations(
@@ -56,7 +70,7 @@ const toSortedStatements = (dataStatements, dataAccustions) => {
 
     const type = payload[0].value.value;
 
-    const accusation = dataAccustions.attestations.find(
+    const accusation = dataAccustions?.attestations?.find(
       (a) => a.id === statement.refUID
     );
 
@@ -70,6 +84,7 @@ const toSortedStatements = (dataStatements, dataAccustions) => {
         personB: accusation?.recipient,
         eventName: type === "corroboration" ? "corroborated" : "denied",
         time: statement.time,
+        regardingAccusation: statement.refUID,
       }),
     };
   });
@@ -109,6 +124,7 @@ const toSortedAccusations = (dataAccustions, statements) => {
         personB: accusation.recipient,
         eventName: "made",
         time: accusation.time,
+        regardingAccusation: accusation.id,
       }),
     };
   }, {});
@@ -133,4 +149,53 @@ export const useGetAccusations = () => {
   const accusations = toSortedAccusations(dataAccustions, statements);
 
   return { accusations, statements };
+};
+
+export const useGetAccusation = (uid) => {
+  const { data } = useQuery(GET_ACCUSATION, {
+    variables: { uid },
+    pollInterval: 500,
+  });
+
+  const { data: dataStatements } = useQuery(GET_STATEMENTS, {
+    pollInterval: 500,
+  });
+
+  if (data == null || data.attestation == null) {
+    return { accusation: null };
+  }
+
+  const statements = toSortedStatements(dataStatements, null);
+  const payload = JSON.parse(data.attestation.decodedDataJson);
+
+  return { accusation: toAccusation(data.attestation, payload, statements) };
+};
+
+const toAccusation = (attestation, payload, statements) => {
+  const applicableStatements = statements.filter(
+    (s) => s.regardingAccusation === attestation.id
+  );
+
+  const corroborations = applicableStatements.filter(
+    (s) => s.type === "corroboration"
+  ).length;
+  const denials = applicableStatements.filter(
+    (s) => s.type === "denial"
+  ).length;
+  return {
+    uid: attestation.id,
+    accuser: attestation.attester,
+    accused: attestation.recipient,
+    content: payload[1].value.value,
+    time: attestation.time,
+    corroborations,
+    denials,
+    toSummary: () => ({
+      personA: attestation.attester,
+      personB: attestation.recipient,
+      eventName: "made",
+      time: attestation.time,
+      regardingAccusation: attestation.id,
+    }),
+  };
 };
