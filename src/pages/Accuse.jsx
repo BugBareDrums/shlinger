@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Window } from "../components/Window";
 import { accuse } from "../services/accuse";
 import { useShit } from "../useShit";
@@ -7,6 +7,7 @@ import { useShit } from "../useShit";
 export const Accuse = () => {
   const { signer } = useShit();
   const {participants} = useOutletContext();
+  const navigate = useNavigate();
    
 
   const onSubmitAccusation = async (e) => {
@@ -14,7 +15,8 @@ export const Accuse = () => {
     const formData = new FormData(e.target);
 
     try{
-       await accuse(signer, formData.get("against"), formData.get("accusation"));
+       const attesationId = await accuse(signer, formData.get("against"), formData.get("accusation"));
+      navigate(`/accusation/${attesationId}`);
     }
     catch(err){
       console.error(err);
@@ -23,18 +25,6 @@ export const Accuse = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* <Sidebar className="flex flex-col justify-between">
-        <EventFeed
-          accusations={accusations}
-          participants={participants}
-          statements={statements}
-        />
-
-        <Button variant="lively" className="w-full font-bold" onClick={() => setState("accuse")}>
-          spread the xmas cheer!
-        </Button>
-      </Sidebar> */}
-
       <main
         className="flex flex-wrap items-center justify-center col-span-3 p-10 bg-center bg-cover grow space-x-4"
         style={{
