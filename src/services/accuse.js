@@ -26,5 +26,5 @@ export const accuse = async (signer, against, content) => {
     },
   });
   const newAttestationUID = await tx.wait();
-  console.log("New attestation UID:", newAttestationUID);
+  return newAttestationUID;
 };

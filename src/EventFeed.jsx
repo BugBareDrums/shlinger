@@ -7,7 +7,7 @@ export const EventFeed = ({ accusations, participants, statements }) => {
   allEvents = allEvents.sort((a, b) => a.time < b.time ? 1 : -1);
 
   return (
-    <aside className="p-4 bg-grey">
+    <aside className="bg-grey overflow-auto">
       <ul>
         {allEvents.map((event) => {
           const summary = event.toSummary();
