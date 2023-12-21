@@ -4,7 +4,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./App.css";
-import { Accusation } from "./pages/Accusation";
+import { AccusationPage } from "./pages/Accusation";
 import { Accuse } from "./pages/Accuse";
 import { Root } from "./pages/Root";
 import { Welcome } from "./pages/Welcome";
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/accusation/:uid",
-        element: <Accusation />
+        element: <AccusationPage/>
       }
     ]
   },

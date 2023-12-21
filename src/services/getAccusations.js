@@ -154,11 +154,11 @@ export const useGetAccusations = () => {
 export const useGetAccusation = (uid) => {
   const { data } = useQuery(GET_ACCUSATION, {
     variables: { uid },
-    pollInterval: 500,
+    // pollInterval: 500,
   });
 
   const { data: dataStatements } = useQuery(GET_STATEMENTS, {
-    pollInterval: 500,
+    // pollInterval: 500,
   });
 
   if (data == null || data.attestation == null) {
