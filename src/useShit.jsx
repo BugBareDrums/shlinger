@@ -8,7 +8,7 @@ import "./App.css";
 export const useShit = () => {
   const [signer, setSigner] = useState();
   const [address, setAddress] = useState();
-  const { sdk, connected, provider } = useSDK();
+  const { sdk, connected, provider, connecting } = useSDK();
 
   useEffect(() => {
     sdk
@@ -35,5 +35,5 @@ export const useShit = () => {
     }
   }, [signer])
 
-  return { signer, connected, address }
+  return { signer, connected, address, connecting }
 }

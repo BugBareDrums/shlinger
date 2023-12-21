@@ -1,14 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useShit } from "../useShit";
 import { useGetName, claimName } from "../services/claimName";
 export const Name = () => {
   const {signer, address } = useShit();
   const {name, loading} = useGetName(address);
+  const navigate = useNavigate();
 
   const onSubmitName = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     await claimName(signer, formData.get("display_name"));
+    navigate("/");
   };
 
 

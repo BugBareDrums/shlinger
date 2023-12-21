@@ -5,11 +5,13 @@ import { useGetAccusations } from "../services/getAccusations";
 import { useGetParticipants } from "../services/getParticipants";
 import { getTokenBalances } from "../services/getTokenBalance";
 import { useShit } from "../useShit";
+import { useIsLoggedIn } from "../services/useIsLoggedIn";
 
 export const Root = () => {
   const { participants = [] } = useGetParticipants();
   const { accusations = [], statements = [] } = useGetAccusations();
   const { signer, connected } = useShit();
+  useIsLoggedIn();
 
   const {candy, coal} = getTokenBalances(participants, signer);
 

@@ -56,7 +56,7 @@ export const useGetName = (address) => {
       schemaId: schemaUID
     }
   })
-  if (loading || !address) return {
+  if (loading || !address || !data.findFirstAttestation) return {
     loading,
     name: null
   };
