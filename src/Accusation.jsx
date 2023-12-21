@@ -7,20 +7,26 @@ export const Accusation = ({
   onCorroborate,
   onDeny,
   participants,
-  thresholdMet
+                               accusationState
 }) => {
   return (
     <Window key={accusation.uid}>
-      <Window.Img stage={thresholdMet ? "truth" : "accused"} />
-        {!thresholdMet &&
+      <Window.Img stage={accusationState === 0 ? "accused" : accusationState === 1 ? "truth" : "lie"} />
+        {accusationState === 0 &&
             <Window.Title>
                 {participants[accusation.accuser] ?? "unknown"} has accused {" "}
                 {participants[accusation.accused] ?? "unknown"}
             </Window.Title>
         }
-        {thresholdMet &&
+        {accusationState === 1 &&
             <Window.Title>
                 FACT!!!!!! {" : "} {participants[accusation.accuser] ?? "unknown"}...
+            </Window.Title>
+        }
+
+        {accusationState === 2 &&
+            <Window.Title>
+                LIE!!!!!! {" : "} {participants[accusation.accuser] ?? "unknown"} {" "} didn't...
             </Window.Title>
         }
       <Window.Subtitle>"{accusation.content}"</Window.Subtitle>
@@ -31,15 +37,15 @@ export const Accusation = ({
 
       <div className="flex gap-5">
         <button
-            disabled={thresholdMet}
-            className={thresholdMet ? "w-full p-2 border-2 border-black opacity-50 cursor-not-allowed" : "w-full p-2 border-2 border-black"}
+            disabled={accusationState !== 0}
+            className={accusationState !== 0 ? "w-full p-2 border-2 border-black opacity-50 cursor-not-allowed" : "w-full p-2 border-2 border-black"}
           onClick={onCorroborate}
         >
           corroborate
         </button>
         <button
-            disabled={thresholdMet}
-            className={thresholdMet ? "w-full p-2 text-white bg-black border-2 border-black opacity-50 cursor-not-allowed" : "w-full p-2 text-white bg-black border-2 border-black"}
+            disabled={accusationState !== 0}
+            className={accusationState !== 0 ? "w-full p-2 text-white bg-black border-2 border-black opacity-50 cursor-not-allowed" : "w-full p-2 text-white bg-black border-2 border-black"}
           onClick={onDeny}
         >
           deny

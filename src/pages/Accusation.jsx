@@ -5,6 +5,8 @@ import { useGetParticipants } from "../services/getParticipants";
 import { corroborate, deny } from "../services/makeStatement";
 import { useShit } from "../useShit";
 
+const THRESHOLD = 3;
+
 export const AccusationPage = () => {
   const { signer, connected } = useShit();
 
@@ -14,12 +16,16 @@ export const AccusationPage = () => {
 
   if (!accusation || !connected) return null;
 
+  let accusationState = 0; // Ongoing
+  if(accusation.corroborations >= THRESHOLD) accusationState = 1; // Truth
+  if(accusation.denials >= THRESHOLD) accusationState = 2; // Lie
+
   return (
     <Accusation
       key={accusation.uid}
       accusation={accusation}
       participants={participants}
-      thresholdMet={accusation.corroborations >= 3 || accusation.denials >= 3}
+      accusationState={accusationState}
       onCorroborate={() => {
         corroborate(signer, accusation);
       }}
