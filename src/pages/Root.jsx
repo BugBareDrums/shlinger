@@ -3,7 +3,6 @@ import { EventFeed } from "../EventFeed";
 import { Sidebar } from "../components/Sidebar";
 import { useGetAccusations } from "../services/getAccusations";
 import { useGetParticipants } from "../services/getParticipants";
-import { getTokenBalances } from "../services/getTokenBalance";
 import { useShit } from "../useShit";
 import { useIsLoggedIn } from "../services/useIsLoggedIn";
 
@@ -13,9 +12,6 @@ export const Root = () => {
   const { signer, connected } = useShit();
   useIsLoggedIn();
 
-  const {candy, coal} = getTokenBalances(participants, signer);
-
-  console.log({candy, coal})
 
   return (
     <div className="h-screen grid grid-cols-4 overflow-hidden">
