@@ -3,20 +3,26 @@ import { EventFeed } from "../EventFeed";
 import { Sidebar } from "../components/Sidebar";
 import { useGetAccusations } from "../services/getAccusations";
 import { useGetParticipants } from "../services/getParticipants";
-import { useShit } from "../useShit";
 import { useIsLoggedIn } from "../services/useIsLoggedIn";
 
 export const Root = () => {
   const { participants = [] } = useGetParticipants();
   const { accusations = [], statements = [] } = useGetAccusations();
-  const { signer, connected } = useShit();
+
   useIsLoggedIn();
 
 
   return (
     <div className="h-screen grid grid-cols-4 overflow-hidden">
       <Sidebar className="h-screen flex flex-col justify-between overflow-auto	">
-      
+        <div className="flex p-4 space-x-4 m-x-2">
+          <Link to="/" className="block w-full font-bold text-center text-black border-yellow-400">
+            doo-doos
+          </Link>
+          <Link to="/naughty-list" className="block w-full font-bold text-center text-black border-yellow-400">
+            naughty list
+          </Link>
+        </div>
         <EventFeed
           accusations={accusations}
           participants={participants}

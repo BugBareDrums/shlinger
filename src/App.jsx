@@ -6,11 +6,11 @@ import {
 import "./App.css";
 import { AccusationPage } from "./pages/Accusation";
 import { Accuse } from "./pages/Accuse";
+import { Connect } from "./pages/Connect";
 import { LeaderboardPage } from "./pages/Leaderboard";
+import { Name } from "./pages/Name";
 import { Root } from "./pages/Root";
 import { Welcome } from "./pages/Welcome";
-import { Connect } from "./pages/Connect";
-import {Name} from "./pages/Name";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <AccusationPage/>
       },
       {
-        path: "/leaderboard",
+        path: "/naughty-list",
         element: <LeaderboardPage />
       }
     ]
