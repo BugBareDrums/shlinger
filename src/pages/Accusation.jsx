@@ -19,6 +19,7 @@ export const AccusationPage = () => {
       key={accusation.uid}
       accusation={accusation}
       participants={participants}
+      thresholdMet={accusation.corroborations > 3 || accusation.denials > 3}
       onCorroborate={() => {
         corroborate(signer, accusation);
       }}
