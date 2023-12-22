@@ -1,4 +1,5 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { Hankey } from "../Hankey";
 import { Window } from "../components/Window";
 import { accuse } from "../services/accuse";
 import { useShit } from "../useShit";
@@ -35,6 +36,7 @@ export const Accuse = () => {
           <Window>
             <Window.Img stage="accuse" />
             <Window.Title>Make an accusation</Window.Title>
+            <Hankey />
             <form onSubmit={onSubmitAccusation}>
               <div className="flex flex-col gap-1">
                 <div>
