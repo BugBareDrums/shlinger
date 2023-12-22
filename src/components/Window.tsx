@@ -19,7 +19,7 @@ export const Img = ({ stage }: { stage: Stages }) => {
 };
 
 const Title = ({ children }: { children: React.ReactNode }) => {
-  return <h2 className="text-lg font-bold">{children}</h2>;
+  return <h2 className="text-left text-lg font-bold mb-4">{children}</h2>;
 };
 const Subtitle = ({ children }: { children: React.ReactNode }) => {
   return <p>{children}</p>;

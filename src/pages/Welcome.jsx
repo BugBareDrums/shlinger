@@ -3,7 +3,7 @@ import {Window} from "../components/Window";
 
 export const Welcome = () => {
     return (
-        <Window className="">
+        <Window className="p-8 max-w-2xl">
             <Window.Img stage="welcome" />
             <Window.Title>welcome to shlinger</Window.Title>
             <div className="text-left">
