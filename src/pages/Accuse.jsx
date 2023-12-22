@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import Loader from "react-spinners/PacmanLoader";
+import Loader from "react-spinners/PuffLoader";
 import { Hankey } from "../Hankey";
 import { Window } from "../components/Window";
 import { accuse } from "../services/accuse";
@@ -12,7 +12,7 @@ const overrideCss = {
   height: "100%",
   left: "0px",
   top: "0px",
-  padding: "15%",
+  padding: "15% 45%",
   alignItems: "center",
   backgroundColor: "rgba(255,255,255,0.5)",
 };
