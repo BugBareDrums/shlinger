@@ -8,7 +8,10 @@ export const Accusation = ({
   participants,
   accusationState,
 }) => {
+
   return (
+
+
     <Window key={accusation.uid}>
       <Window.Img
         stage={
@@ -45,11 +48,13 @@ export const Accusation = ({
 
       {accusationState === 0 && (
         <div className="flex gap-5">
+      
           <button
             className={"w-full p-2 border-2 border-black"}
             onClick={onCorroborate}
           >
             corroborate
+
           </button>
           <button
             className={"w-full p-2 text-white bg-black border-2 border-black"}
